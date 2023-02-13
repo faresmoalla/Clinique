@@ -35,18 +35,28 @@ class ReclamationController extends AbstractController
     }
 
     /**
+     * @Route("/afficherreclamationuser",name="afficherreclamationuser")
+     */
+    public function Affiche2(Request $request,ReclamationRepository $repository){
+        $tablereclamation=$repository->findAll();
+        return $this->render('reclamation/reclamationback.html.twig'
+            ,['tablereclamation'=>$tablereclamation]);
+    }
+    /**
      * @Route("/ajouterreclamation",name="ajouterreclamation")
      */
     public function ajouterreclamation(EntityManagerInterface $em,Request $request ,ReclamationRepository $reclamationRepository){
         $reclamation= new Reclamation();
         $form= $this->createForm(ReclamationType::class,$reclamation);
+        $reclamation->setDate(new \DateTimeImmutable());
+        $reclamation->setEtat("non traitée");
         $form->add('Ajouter',SubmitType::class);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
             $new=$form->getData();
 
-            $em->persist($request);
+           $em->persist($reclamation);
             $em->flush();
 
             return $this->redirectToRoute("afficherreclamation");
@@ -81,12 +91,12 @@ class ReclamationController extends AbstractController
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $imageFile = $form->get('imgproduit')->getData();
+
 
             $this->getDoctrine()->getManager()->flush();
 
 
-            return $this->redirectToRoute('afficherproduit');
+            return $this->redirectToRoute('afficherreclamation');
         }
 
         return $this->render('reclamation/ModifReclamation.html.twig', [

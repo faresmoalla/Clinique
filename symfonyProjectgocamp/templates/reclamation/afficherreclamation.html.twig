@@ -1,0 +1,112 @@
+{% extends 'base_front.html.twig' %}
+
+{% block body %}
+
+    <!--start section-->
+    <section id="nicdark_parallax_title" class="nicdark_section nicdark_imgparallax nicdark_parallaxx_img5">
+
+        <div class="nicdark_filter greydark">
+
+            <!--start nicdark_container-->
+            <div class="nicdark_container nicdark_clearfix">
+
+                <div class="nicdark_space100"></div>
+                <div class="nicdark_space100"></div>
+
+                <div class="nicdark_space70"></div> <!--for header 1-->
+
+                <div class="grid grid_6">
+                    <h1 class="white subtitle">Mes Reclamations</h1>
+                </div>
+                <div class="grid grid_6 nicdark_displaynone_responsive">
+                    <div class="nicdark_space5"></div>
+                    <h4 class="white right subtitle"><a class="white" href="#">Categorie</a> <span class="nicdark_marginleft10 nicdark_marginright10 grey2">|</span> Accueil</h4>
+                </div>
+
+                <div class="nicdark_space40"></div>
+                <div class="nicdark_space40"></div>
+
+            </div>
+            <!--end nicdark_container-->
+
+        </div>
+
+    </section>
+    <!--end section-->
+
+    <section class="nicdark_section">
+
+        <!--start nicdark_container-->
+
+        <!--end form-->
+
+
+
+
+        {% for i in tablereclamation %}
+            <div class="grid grid_4">
+
+                <!--start accomodation-->
+                <div class="nicdark_focus">
+
+
+                    <!--title e descr-->
+                    <center>
+                        <div class="nicdark_margin020 nicdark_border_bottom_none nicdark_padding20 nicdark_border_grey nicdark_relative nicdark_sizing nicdark_bg_white nicdark_margintop55_negative">
+                            <h2>  Mes reclamations </h2>
+                            {% for i in tablereclamation %}
+                                <tr>
+
+
+
+
+                                    <td>{{(i.date).format('d/m/Y')}}</td>
+                                    <td> {{ i.type  }} </td>
+                                    <td> {{ i.etat  }} </td>
+                                    <td> <a class="btn btn-info btn-icon-split">
+                                            <span class="icon text-white-50">
+                        <i class="fas fa-info-circle"></i>
+
+                    </span>
+
+
+                                        </a></td>
+                                    <td><a href="{{ path('supprimerreclamation',{'id': i.id}) }}"><img src="https://img.icons8.com/external-kiranshastry-lineal-color-kiranshastry/344/external-delete-miscellaneous-kiranshastry-lineal-color-kiranshastry.png" style="width:50px;height:50px;" /></a></td>
+                                </tr>
+
+                            {% endfor %}
+
+
+
+
+                        </div>
+                    </center>
+
+                    <div class="nicdark_paddingtop0 nicdark_focus nicdark_sizing nicdark_padding20  nicdark_relative nicdark_sizing nicdark_bg_white ">
+                        <div class="nicdark_border_top_none nicdark_focus nicdark_padding20 nicdark_sizing nicdark_border_grey ">
+                            <div class="grid grid_6 percentage nicdark_width100_ipadpotr">
+
+                                <a href="{{ path('modifierreclamation', {'id': i.id}) }}" class="nicdark_width100_ipadpotr nicdark_width100_iphonepotr nicdark_width100_iphoneland  nicdark_sizing nicdark_btn nicdark_bg_blue left  medium white">Modifier</a>
+
+                            </div>
+                            {# <div class="grid grid_6 percentage nicdark_width100_ipadpotr">
+                            {#  href="#" class="nicdark_width100_ipadpotr nicdark_width100_iphonepotr nicdark_width100_iphoneland  nicdark_sizing nicdark_btn nicdark_border_grey nicdark_bg_white right medium grey">From 200 $</a>
+                        </div> #}
+                        </div>
+                    </div>
+                    <!--end btns-->
+
+                </div>
+                <!--end accomodation-->
+
+            </div>
+        {% endfor %}
+
+
+
+        </div>
+        <!--end container-->
+
+    </section>
+
+{% endblock %}
