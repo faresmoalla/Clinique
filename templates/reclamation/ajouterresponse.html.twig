@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Listes des Reclamations{% endblock %}
+
+{% block body %}
+    <main id="main" class="main">
+
+
+
+        <section class="section dashboard">
+            <div class="row">
+
+                <!-- Left side columns -->
+                <div class="col-lg-8">
+                    <div class="row">
+
+
+                        <div class="col-12">
+
+
+
+
+                                    <h5 class="card-title">Ajouter une response </h5>
+
+                                    <div class="col-lg-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                {{ form_start(form2,{'attr': {'novalidate': 'novalidate'}} ) }}
+
+
+
+
+                                                <div class="nicdark_focus nicdark_relative">
+                                                    <div class="nicdark_activity nicdark_marginleft100 nicdark_disable_marginleft_ipadpotr">
+                                                        <h4>description</h4>
+                                                    </div>
+
+                                                    {{ form_errors(form2.description) }}
+                                                    {{ form_widget(form2.description, {'attr':{ 'placeholder':'description'}})}}
+                                                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                                                <div class="nicdark_space20"></div>
+                                                {#  <button type="submit" class="nicdark_mpopup_ajax nicdark_btn nicdark_bg_blue medium nicdark_outline  white nicdark_press" >Ajouter</button>#}
+                                                {{ form_end(form2) }}
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /# card -->
+
+
+                                </div>
+
+
+                        </div><!-- End Recent Sales -->
+
+                        <!-- Top Selling -->
+
+                    </div>
+                </div><!-- End Left side columns -->
+
+
+
+            </div>
+        </section>
+
+    </main><!-- End #main -->
+
+{% endblock %}
+

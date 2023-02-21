@@ -1,0 +1,113 @@
+{% extends 'base1.html.twig' %}
+
+{% block body %}
+
+    <!--start section-->
+    <section id="nicdark_parallax_title" class="nicdark_section nicdark_imgparallax nicdark_parallaxx_img5">
+
+        <div class="nicdark_filter greydark">
+
+            <!--start nicdark_container-->
+            <div class="nicdark_container nicdark_clearfix">
+
+                <div class="nicdark_space100"></div>
+                <div class="nicdark_space100"></div>
+
+                <div class="nicdark_space70"></div> <!--for header 1-->
+
+                <div class="grid grid_6">
+                    <h1 class="white subtitle">Mes Reclamations</h1>
+                </div>
+                <div class="grid grid_6 nicdark_displaynone_responsive">
+                    <div class="nicdark_space5"></div>
+                    <h4 class="white right subtitle"><a class="white" href="#">Categorie</a> <span class="nicdark_marginleft10 nicdark_marginright10 grey2">|</span> Accueil</h4>
+                </div>
+
+                <div class="nicdark_space40"></div>
+                <div class="nicdark_space40"></div>
+
+            </div>
+            <!--end nicdark_container-->
+
+        </div>
+
+    </section>
+    <!--end section-->
+
+    <section class="nicdark_section">
+
+        <!--start nicdark_container-->
+
+        <!--end form-->
+
+
+
+
+        <div class="card-body">
+            <h5 class="card-title">La liste des reclamations </h5>
+
+            <table class="table table-borderless datatable">
+                <thead>
+                <tr>
+                    {#  <th class="text-center">Supprimer</th>
+                                    <th class="text-center">Modifier</th>#}
+                    <th class="text-center"> date reclamation</th>
+                    <th class="text-center">type reclamation</th>
+                    <th class="text-center">Description</th>
+                    <th class="text-center">etat</th>
+                    <th>Actions</th>
+                    <th class="text-center">Response</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for i in tablereclamation %}
+                    <tr>
+
+                    <tr>
+                        {#  <td class="text-center"><a type="button" href="{{ path('supprimertransport', {'id': transport.id}) }}" class="btn btn-rounded btn-outline-danger">Supprimer</a></td>
+
+                                    <td class="text-center"><a type="button" href="{{ path('modifiertransport', {'id': transport.id}) }}" class="btn btn-rounded btn-outline-warning">Modifier</a></td>#}
+
+                        <td>{{(i.date).format('d/m/Y')}}</td>
+                        <td> {{ i.type  }} </td>
+                        <td> {{ i.Description  }} </td>
+                        <td> {{ i.etat  }} </td>
+
+
+
+                        <td class="text-center"><a type="button" href="{{ path('modifierreclamation',{'id': i.id}) }}" class="btn btn-rounded btn-outline-danger">Modifier</a>
+
+                            <a type="button" href="{{ path('supprimerreclamation',{'id': i.id}) }}" class="btn btn-rounded btn-outline-danger">Supprimer</a>
+
+
+
+                        </td>
+<td>
+    {% for j in i.Responses %}
+{{ j.description }}
+        <hr>
+    {% endfor %}
+
+</td>
+
+                    </tr>
+
+
+                {% endfor %}
+
+
+
+                </tbody>
+            </table>
+
+        </div>
+
+
+
+        </div>
+
+
+    </section>
+
+{% endblock %}
