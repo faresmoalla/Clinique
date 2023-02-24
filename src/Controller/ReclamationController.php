@@ -212,4 +212,35 @@ class ReclamationController extends AbstractController
 
     }
 
+
+    #[Route("/stat",name:"stat")]
+
+    public function statAction(ReclamationRepository $test)
+    {
+
+
+        $coursss= $test->findAll();
+        $nbrCours=[];
+        foreach($coursss as $cours){
+            $coursnom[]=$cours->getType();
+            $coursprix[]=sizeof($cours->getResponses());
+        }
+
+
+
+
+
+
+        return $this->render('reclamation/stat.html.twig',
+            [
+
+                'coursnom'=> json_encode($coursnom),
+                'coursprix'=> json_encode($coursprix),
+
+
+            ]);
+
+
+    }
+
 }
