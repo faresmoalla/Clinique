@@ -39,6 +39,23 @@ class ReclamationRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     *
+     * Requête QueryBuilder
+     */
+    public function listReclamationparDate(){
+        return $this->createQueryBuilder('c')
+            ->orderBy('c.date','ASC')
+            ->getQuery()
+            ->getResult()
+
+            ;
+
+    }
+
+
+
+
 //    /**
 //     * @return Reclamation[] Returns an array of Reclamation objects
 //     */

@@ -23,12 +23,13 @@
 
                                 <div class="card-body">
                                     <h5 class="card-title">La liste des reclamations </h5>
-
-                                    <table class="table table-borderless datatable">
+                                    <input  id="myInput"  type="text" placeholder="search">
+                                    <table class="table table-bordered" id="t"  width="100%" cellspacing="0">
                                         <thead>
                                         <tr>
                                             {#  <th class="text-center">Supprimer</th>
                                     <th class="text-center">Modifier</th>#}
+                                            <th  class="text-center"></th>
                                             <th class="text-center"> date reclamation</th>
                                             <th class="text-center">type reclamation</th>
                                             <th class="text-center">Description</th>
@@ -39,7 +40,7 @@
                                         </tr>
                                         </thead>
 
-                                        <tbody>
+                                        <tbody id="myTable">
                                         {% for i in tablereclamation %}
                                             <tr>
 
@@ -47,7 +48,8 @@
                                                 {#  <td class="text-center"><a type="button" href="{{ path('supprimertransport', {'id': transport.id}) }}" class="btn btn-rounded btn-outline-danger">Supprimer</a></td>
 
                                     <td class="text-center"><a type="button" href="{{ path('modifiertransport', {'id': transport.id}) }}" class="btn btn-rounded btn-outline-warning">Modifier</a></td>#}
-
+<td>                <a href="{{ path('pdf',{'id': i.id}) }}">   <img   width="30" src="https://cdn-icons-png.flaticon.com/512/337/337946.png">  </a>
+</td>
                                                 <td>{{(i.date).format('d/m/Y')}}</td>
                                                 <td> {{ i.type  }} </td>
                                                 <td> {{ i.Description  }} </td>
@@ -83,8 +85,22 @@
 
 
                                         </tbody>
+                                        <tbody id="search">
+                                        </tbody>
                                     </table>
+                                    {{ knp_pagination_render(tablereclamation) }}
 
+                                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                                    <script>
+                                        $(document).ready(function(){
+                                            $("#myInput").on("keyup", function() {
+                                                var value = $(this).val().toLowerCase();
+                                                $("#myTable tr").filter(function() {
+                                                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                                                });
+                                            });
+                                        });
+                                    </script>
                                 </div>
 
                             </div>

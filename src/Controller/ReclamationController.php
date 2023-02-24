@@ -5,14 +5,18 @@ namespace App\Controller;
 use App\Entity\Reclamation;
 use App\Form\ReclamationType;
 use App\Form\ResponseType;
+
 use App\Repository\ReclamationRepository;
 use App\Repository\ResponseRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
 
 class ReclamationController extends AbstractController
 {
@@ -40,8 +44,16 @@ class ReclamationController extends AbstractController
 
     #[Route("/afficherreclamationuser",name:"afficherreclamationuser")]
 
-    public function Affiche2(Request $request,ReclamationRepository $repository){
-        $tablereclamation=$repository->findAll();
+    public function Affiche2(Request $request,ReclamationRepository $repository,PaginatorInterface $paginator){
+        $tablereclamation=$repository->listReclamationparDate();
+        $tablereclamation = $paginator->paginate(
+            $tablereclamation,
+            $request->query->getInt('page', 1),
+            4
+        );
+
+
+
         return $this->render('reclamation/reclamationback.html.twig'
             ,['tablereclamation'=>$tablereclamation]);
     }
@@ -172,6 +184,32 @@ class ReclamationController extends AbstractController
 
         return $this->redirectToRoute('afficherreclamationuser');
     }
+    /**
+     * @Route("/pdf/{id}", name="pdf" ,  methods={"GET"})
+     */
+    public function pdf($id,ReclamationRepository $repository){
 
+        $reclamation=$repository->find($id);
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+        $dompdf = new Dompdf($pdfOptions);
+        $html = $this->renderView('reclamation/pdf.html.twig', [
+            'pdf' => $reclamation,
+
+        ]);
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+        //  $dompdf->stream();
+        // Output the generated PDF to Browser (force download)
+        $dompdf->stream($reclamation->getType(), [
+            "Attachment" => true
+        ]);
+
+    }
 
 }
