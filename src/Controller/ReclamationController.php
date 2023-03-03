@@ -130,64 +130,10 @@ class ReclamationController extends AbstractController
 
 
 
-    #[Route("/{id}/ajouterresponse/",name:"ajouterresponse")]
-
-    public function ajouterresponse( Reclamation $reclamation,EntityManagerInterface $em,Request $request ,ResponseRepository $responseRepository,ReclamationRepository $reclamationRepo){
-        //$reclamation = $reclamationRepo->findOneBy(["id" => $request->get("id")]);
-
-        $response= new \App\Entity\Response();
-        $form2= $this->createForm(ResponseType::class,$response);
-        $form2->add('Ajouter',SubmitType::class);
-        $form2->handleRequest($request);
-        $response->setReclamation($reclamation);
-        if($form2->isSubmitted() && $form2->isValid()){
-            $em->persist($response);
-            $em->flush();
-
-            return $this->redirectToRoute("afficherreclamationuser");
-        }
-        return $this->render("reclamation/ajouterresponse.html.twig",array("form2"=>$form2->createView()));
-
-    }
-
-    #[Route("/{id}/modifierresponse", name:"modifierresponse")]
-
-    public function editresponse(Request $request, \App\Entity\Response $response): Response
-    {
-        $form = $this->createForm(ResponseType::class, $response);
-        $form->add('Confirmer',SubmitType::class);
-
-        $form->handleRequest($request);
 
 
-        if ($form->isSubmitted() && $form->isValid()) {
-
-
-            $this->getDoctrine()->getManager()->flush();
-
-
-            return $this->redirectToRoute('afficherreclamation');
-        }
-
-        return $this->render('reclamation/Modifresponse.html.twig', [
-            'reclamationmodif' => $response,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    #[Route("/supprimerresponse/{id}",name:"supprimerresponse")]
-
-    public function supprimerresponse($id,EntityManagerInterface $em ,ResponseRepository $repository){
-        $rec=$repository->find($id);
-        $em->remove($rec);
-        $em->flush();
-
-        return $this->redirectToRoute('afficherreclamationuser');
-    }
-    /**
-     * @Route("/pdf/{id}", name="pdf" ,  methods={"GET"})
-     */
-    public function pdf($id,ReclamationRepository $repository){
+    #[Route("/pdf/{id}",name:"pdf", methods: ['GET'])]
+    public function pdf($id,ReclamationRepository $repository): Response{
 
         $reclamation=$repository->find($id);
         $pdfOptions = new Options();
@@ -198,6 +144,7 @@ class ReclamationController extends AbstractController
 
         ]);
         $dompdf->loadHtml($html);
+      //  $dompdf->loadHtml('<h1>Hello, World!</h1>');
 
         // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
         $dompdf->setPaper('A4', 'portrait');
@@ -206,8 +153,13 @@ class ReclamationController extends AbstractController
         $dompdf->render();
         //  $dompdf->stream();
         // Output the generated PDF to Browser (force download)
-        $dompdf->stream($reclamation->getType(), [
-            "Attachment" => true
+       /* $dompdf->stream($reclamation->getType(), [
+            "Attachment" => false
+        ]);*/
+        $pdfOutput = $dompdf->output();
+        return new Response($pdfOutput, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="reclamation.pdf"'
         ]);
 
     }

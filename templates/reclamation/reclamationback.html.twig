@@ -48,7 +48,7 @@
                                                 {#  <td class="text-center"><a type="button" href="{{ path('supprimertransport', {'id': transport.id}) }}" class="btn btn-rounded btn-outline-danger">Supprimer</a></td>
 
                                     <td class="text-center"><a type="button" href="{{ path('modifiertransport', {'id': transport.id}) }}" class="btn btn-rounded btn-outline-warning">Modifier</a></td>#}
-<td>                <a href="{{ path('pdf',{'id': i.id}) }}">   <img   width="30" src="https://cdn-icons-png.flaticon.com/512/337/337946.png">  </a>
+                                            <td>             <a href="{{ path('pdf',{'id': i.id}) }}">  <img   width="30" src="https://cdn-icons-png.flaticon.com/512/337/337946.png">  </a>
 </td>
                                                 <td>{{(i.date).format('d/m/Y')}}</td>
                                                 <td> {{ i.type  }} </td>
